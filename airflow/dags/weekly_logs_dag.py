@@ -1,11 +1,6 @@
-
 from airflow import DAG
-from airflow.operators.python_operator import PythonOperator # type: ignore
+from airflow.operators.bash_operator import BashOperator  # type: ignore
 from datetime import datetime, timedelta
-from Weekly_Logs.logs import main
-
-def logs():
-    main()
 
 default_args = {
     'owner': 'airflow',
@@ -25,8 +20,12 @@ dag = DAG(
     catchup=False,
 )
 
-kpi_task = PythonOperator(
-    task_id="Weekly_Logs",
-    python_callable=logs,
+run_logs = BashOperator(
+    task_id="run_weekly_logs",
+    bash_command="""
+    source /path/to/venv/bin/activate
+    cd /path/to/Weekly_Logs
+    python logs.py
+    """,
     dag=dag
 )
