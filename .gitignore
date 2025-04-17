@@ -1,0 +1,8 @@
+.env
+
+venv
+
+airflow/airflow.db
+airflow/logs/
+airflow/standalone_admin_password.txt
+airflow/airflow.cfg
